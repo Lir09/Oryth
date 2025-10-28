@@ -1,4 +1,37 @@
-/* ===== Paperlogy 폰트 선언 (Regular + SemiBold) ===== */
+/* src/style/Header.css */
+/* =========================
+   Header.css (Monochrome, Sticky, Drawer)
+   - 높이 업 / 로고 70px / 모바일 버거 우측
+   - 로고 주변 여백 제거
+   - is-active 밑줄 제거(hover만 유지)
+   - 햄버거 3줄 ↔ X 전환, 우측 슬라이드 드로어
+========================= */
+
+/* ===== Reset & Tokens ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --ink: #000;
+  --paper: #fff;
+  --muted: #6b7280;
+  --line: rgba(0, 0, 0, 0.12);
+  --container: 1200px;
+  --gutter-x: 20px;
+  --radius: 16px;
+  --elev: 0 6px 28px rgba(0, 0, 0, 0.08);
+  --glass: rgba(255, 255, 255, 0.9);
+}
+
+/* Fonts */
 @font-face {
   font-family: "Paperlogy";
   font-style: normal;
@@ -10,201 +43,313 @@
 @font-face {
   font-family: "Paperlogy";
   font-style: normal;
-  font-weight: 600; /* SemiBold */
+  font-weight: 600;
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.1/Paperlogy-6SemiBold.woff2")
     format("woff2");
   font-display: swap;
 }
 
-/* ===== 디자인 토큰 ===== */
-:root {
-  --gold: #d4af37;
-  --gold-deep: #b68b2d;
-  --gold-soft: #e3c766;
-  --ink: #0a0a0a;
-  --paper: #ffffff;
-  --line: rgba(17, 24, 39, 0.85);
-}
-
-/* 상단 얇은 선 */
+/* Hairline */
 .hdr-topline {
+  width: 100%;
   height: 2px;
   background: var(--line);
 }
 
+/* Header */
 .hdr-root {
   position: sticky;
   top: 0;
   z-index: 50;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--ink);
   font-family: "Paperlogy", system-ui, -apple-system, Roboto, "Noto Sans KR",
     sans-serif;
+  transition: box-shadow 0.2s ease, background 0.2s ease;
 }
-.hdr-shell {
-  max-width: 1120px;
+.hdr-root.is-scrolled {
+  box-shadow: var(--elev);
+}
+
+/* Inner grid */
+.hdr-inner {
+  max-width: var(--container);
   margin: 0 auto;
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(6px);
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  padding: 16px var(--gutter-x);
+  min-height: 72px;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
-}
-.hdr-root.is-scrolled .hdr-shell {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
 }
 
+/* Brand */
 .hdr-brand {
+  grid-column: 1;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 0;
   text-decoration: none;
+  color: inherit;
+  justify-self: start;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .hdr-logo {
-  width: 34px;
-  height: 34px;
+  width: 150px;
+  height: 50px;
   object-fit: contain;
+  display: block;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .hdr-wordmark {
-  font-weight: 900;
-  letter-spacing: 0.34em;
-  font-size: 18px;
-  line-height: 1;
-  background: linear-gradient(
-    180deg,
-    var(--gold-soft) 0%,
-    var(--gold) 42%,
-    var(--gold-deep) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  display: none !important;
 }
 
+/* Desktop nav */
 .hdr-nav {
+  grid-column: 3;
   display: none;
-  gap: 36px;
+  gap: 32px;
   align-items: center;
+  justify-content: flex-end;
 }
 .hdr-link {
   position: relative;
   text-decoration: none;
-  color: #111;
+  color: var(--ink);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.04em;
+  padding: 8px 2px;
 }
 .hdr-link::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -6px;
+  bottom: 2px;
   height: 2px;
   width: 0%;
-  background: linear-gradient(
-    90deg,
-    var(--gold-deep),
-    var(--gold),
-    var(--gold-soft)
-  );
-  transition: width 220ms ease;
+  background: currentColor;
+  transition: width 0.2s ease;
 }
-.hdr-link:hover::after,
-.hdr-link.is-active::after {
+.hdr-link:hover::after {
   width: 100%;
 }
+.hdr-link.is-active::after {
+  width: 0 !important;
+} /* 현재 위치 밑줄 제거 */
 
-/* 버거 버튼 */
+/* Burger (3줄→X) */
 .hdr-burger {
+  grid-column: 3;
+  justify-self: end;
   display: inline-flex;
   width: 44px;
-  height: 40px;
+  height: 44px;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e7e7e7;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--glass);
+  cursor: pointer;
+  color: var(--ink);
+  position: relative;
+}
+.hdr-burger .bar {
+  position: relative;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease, top 0.25s ease;
+}
+.hdr-burger .bar::before,
+.hdr-burger .bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease, top 0.25s ease;
+}
+.hdr-burger .bar::before {
+  top: -6px;
+}
+.hdr-burger .bar::after {
+  top: 6px;
+}
+
+/* open 상태에서 X */
+.hdr-root.is-open .hdr-burger .bar {
+  transform: rotate(45deg);
+}
+.hdr-root.is-open .hdr-burger .bar::before {
+  top: 0;
+  transform: rotate(90deg);
+}
+.hdr-root.is-open .hdr-burger .bar::after {
+  top: 0;
+  opacity: 0;
+}
+
+/* Drawer overlay */
+.hdr-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(1px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 55;
+}
+.hdr-root.is-open .hdr-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer (right slide) */
+.hdr-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 82vw;
+  max-width: 360px;
+  height: 100vh;
+  background: #fff;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: var(--elev);
+  transform: translateX(100%);
+  transition: transform 0.28s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px 32px;
+  z-index: 60;
+}
+.hdr-root.is-open .hdr-drawer {
+  transform: translateX(0);
+}
+
+/* Drawer close(X) */
+.hdr-drawer-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  opacity: 0.9;
+  background: transparent;
+  border: none;
   cursor: pointer;
 }
-.hdr-burger span {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: #111;
-  margin: 3px 0;
-}
-
-/* 드로어 */
-.hdr-drawer {
-  display: none;
+.hdr-drawer-close::before,
+.hdr-drawer-close::after {
+  content: "";
   position: absolute;
-  left: 16px;
-  right: 16px;
-  top: calc(100% + 8px);
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid #ececec;
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
 }
-.hdr-drawer.is-open {
-  display: block;
+.hdr-drawer-close::before {
+  transform: rotate(45deg);
 }
-.hdr-drawer-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-decoration: none;
-  color: #111;
-  font-weight: 700;
-  padding: 10px 12px;
-  border-radius: 10px;
-}
-.hdr-drawer-item:hover {
-  background: #f7f7f7;
+.hdr-drawer-close::after {
+  transform: rotate(-45deg);
 }
 
-/* 반응형 */
+/* Drawer nav */
+.hdr-drawer-nav {
+  margin-top: 48px;
+  display: grid;
+  gap: 28px;
+  width: 100%;
+}
+.hdr-drawer-link {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 10px 8px;
+}
+
+/* Fluid modifier */
+.hdr--fluid .hdr-inner {
+  max-width: none;
+  width: 100%;
+  padding-left: var(--gutter-x);
+  padding-right: var(--gutter-x);
+}
+
+/* Responsive */
 @media (min-width: 768px) {
-  .hdr-shell {
-    grid-template-columns: auto 1fr auto;
+  .hdr-inner {
+    padding: 18px var(--gutter-x);
+    min-height: 80px;
   }
   .hdr-nav {
     display: inline-flex;
   }
   .hdr-burger,
-  .hdr-drawer {
+  .hdr-drawer,
+  .hdr-overlay {
     display: none !important;
   }
 }
 
-/* 다크 모드(선택) */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
-  .hdr-shell {
-    background: rgba(10, 10, 12, 0.84);
-    color: #f2f2f2;
+  :root {
+    --glass: rgba(16, 16, 16, 0.9);
+  }
+  .hdr-root {
+    background: rgba(0, 0, 0, 0.9);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+    color: #fff;
   }
   .hdr-link {
-    color: #f1f1f1;
+    color: #fff;
   }
   .hdr-burger {
-    border-color: #2a2a2a;
-    background: rgba(22, 22, 24, 0.9);
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(20, 20, 20, 0.92);
+    color: #fff;
   }
-  .hdr-burger span {
-    background: #f1f1f1;
+  .hdr-burger .bar,
+  .hdr-burger .bar::before,
+  .hdr-burger .bar::after {
+    background: currentColor;
   }
   .hdr-drawer {
-    background: rgba(18, 18, 20, 0.98);
-    border-color: #2a2a2a;
+    background: #0b0b0b;
+    border-left-color: rgba(255, 255, 255, 0.12);
   }
-  .hdr-drawer-item {
-    color: #f1f1f1;
+  .hdr-drawer-link,
+  .hdr-drawer-close {
+    color: #fff;
   }
-  .hdr-drawer-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+  .hdr-overlay {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+/* Motion */
+@media (prefers-reduced-motion: no-preference) {
+  .hdr-root {
+    transition: box-shadow 0.2s ease, background 0.2s ease;
   }
 }

@@ -1,7 +1,7 @@
-// ===== Header.tsx (No Tailwind, Paperlogy font, gold accent) =====
-import { useState, useEffect } from "react";
+// src/components/Header.tsx
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logoUrl from "../assets/KakaoTalk_20251026_002919547-removebg-preview.png"; // 경로 맞춰주세요
+import logoUrl from "../assets/logo.png";
 import "../style/Header.css";
 
 const NAV = [
@@ -10,7 +10,12 @@ const NAV = [
   { to: "/activity", label: "ACTIVITY" },
   { to: "/apply", label: "APPLY" },
   { to: "/staff", label: "STAFF" },
-  { to: "/notion", label: "NOTION" },
+  {
+    to: "/notion",
+    label: "NOTION",
+    external: true,
+    href: "https://www.notion.so",
+  },
 ];
 
 export default function Header() {
@@ -18,62 +23,135 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // 스크롤 시 그림자 토글
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 6);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => setOpen(false), [pathname]);
+  // 라우트 변경 시 드로어 닫기
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // ESC로 닫기 + 바디 스크롤 잠금
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <header className={"hdr-root" + (scrolled ? " is-scrolled" : "")}>
-      <div className="hdr-topline" />
+    <>
+      <header
+        className={`hdr-root ${scrolled ? "is-scrolled" : ""} ${
+          open ? "is-open" : ""
+        }`}
+      >
+        <div className="hdr-topline" aria-hidden />
+        <div className="hdr-inner">
+          <Link className="hdr-brand" to="/" aria-label="홈으로">
+            <img className="hdr-logo" src={logoUrl} alt="Logo" />
+            <span className="hdr-wordmark" aria-hidden>
+              Brand
+            </span>
+          </Link>
 
-      <div className="hdr-shell">
-        <Link to="/" className="hdr-brand">
-          <img
-            src={logoUrl}
-            alt="logo"
-            className="hdr-logo"
-            draggable={false}
-          />
-          <span className="hdr-wordmark">FINDER</span>
-        </Link>
+          {/* 데스크톱 네비 */}
+          <nav className="hdr-nav" aria-label="주요 메뉴">
+            {NAV.map((it) =>
+              it.external ? (
+                <a
+                  key={it.label}
+                  className={`hdr-link ${
+                    pathname === it.to ? "is-active" : ""
+                  }`}
+                  href={it.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {it.label}
+                </a>
+              ) : (
+                <Link
+                  key={it.label}
+                  to={it.to}
+                  className={`hdr-link ${
+                    pathname === it.to ? "is-active" : ""
+                  }`}
+                >
+                  {it.label}
+                </Link>
+              )
+            )}
+          </nav>
 
-        <nav className="hdr-nav">
-          {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={
-                "hdr-link" + (pathname === item.to ? " is-active" : "")
-              }
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <button
-          className="hdr-burger"
-          aria-label="Menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-
-        <div className={"hdr-drawer" + (open ? " is-open" : "")}>
-          {NAV.map((item) => (
-            <Link key={item.to} to={item.to} className="hdr-drawer-item">
-              {item.label}
-            </Link>
-          ))}
+          {/* 버거 버튼 */}
+          <button
+            className="hdr-burger"
+            aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
+            aria-expanded={open}
+            aria-controls="mobile-drawer"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="bar" />
+          </button>
         </div>
-      </div>
-    </header>
+
+        {/* 우측 슬라이드 드로어 */}
+        <aside
+          id="mobile-drawer"
+          className="hdr-drawer"
+          role="dialog"
+          aria-modal="true"
+          aria-label="모바일 메뉴"
+        >
+          <button
+            className="hdr-drawer-close"
+            aria-label="메뉴 닫기"
+            onClick={() => setOpen(false)}
+          />
+          <nav className="hdr-drawer-nav">
+            {NAV.map((it) =>
+              it.external ? (
+                <a
+                  key={it.label}
+                  className="hdr-drawer-link"
+                  href={it.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setOpen(false)}
+                >
+                  {it.label}
+                </a>
+              ) : (
+                <Link
+                  key={it.label}
+                  to={it.to}
+                  className="hdr-drawer-link"
+                  onClick={() => setOpen(false)}
+                >
+                  {it.label}
+                </Link>
+              )
+            )}
+          </nav>
+        </aside>
+
+        {/* 오버레이 */}
+        <div
+          className="hdr-overlay"
+          onClick={() => setOpen(false)}
+          aria-hidden
+        />
+      </header>
+    </>
   );
 }
