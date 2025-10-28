@@ -1,0 +1,210 @@
+/* ===== Paperlogy 폰트 선언 (Regular + SemiBold) ===== */
+@font-face {
+  font-family: "Paperlogy";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.1/Paperlogy-4Regular.woff2")
+    format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Paperlogy";
+  font-style: normal;
+  font-weight: 600; /* SemiBold */
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.1/Paperlogy-6SemiBold.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+/* ===== 디자인 토큰 ===== */
+:root {
+  --gold: #d4af37;
+  --gold-deep: #b68b2d;
+  --gold-soft: #e3c766;
+  --ink: #0a0a0a;
+  --paper: #ffffff;
+  --line: rgba(17, 24, 39, 0.85);
+}
+
+/* 상단 얇은 선 */
+.hdr-topline {
+  height: 2px;
+  background: var(--line);
+}
+
+.hdr-root {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  font-family: "Paperlogy", system-ui, -apple-system, Roboto, "Noto Sans KR",
+    sans-serif;
+}
+.hdr-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+.hdr-root.is-scrolled .hdr-shell {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+.hdr-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.hdr-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+.hdr-wordmark {
+  font-weight: 900;
+  letter-spacing: 0.34em;
+  font-size: 18px;
+  line-height: 1;
+  background: linear-gradient(
+    180deg,
+    var(--gold-soft) 0%,
+    var(--gold) 42%,
+    var(--gold-deep) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hdr-nav {
+  display: none;
+  gap: 36px;
+  align-items: center;
+}
+.hdr-link {
+  position: relative;
+  text-decoration: none;
+  color: #111;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+.hdr-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--gold-deep),
+    var(--gold),
+    var(--gold-soft)
+  );
+  transition: width 220ms ease;
+}
+.hdr-link:hover::after,
+.hdr-link.is-active::after {
+  width: 100%;
+}
+
+/* 버거 버튼 */
+.hdr-burger {
+  display: inline-flex;
+  width: 44px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e7e7e7;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+}
+.hdr-burger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #111;
+  margin: 3px 0;
+}
+
+/* 드로어 */
+.hdr-drawer {
+  display: none;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: calc(100% + 8px);
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+.hdr-drawer.is-open {
+  display: block;
+}
+.hdr-drawer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: #111;
+  font-weight: 700;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+.hdr-drawer-item:hover {
+  background: #f7f7f7;
+}
+
+/* 반응형 */
+@media (min-width: 768px) {
+  .hdr-shell {
+    grid-template-columns: auto 1fr auto;
+  }
+  .hdr-nav {
+    display: inline-flex;
+  }
+  .hdr-burger,
+  .hdr-drawer {
+    display: none !important;
+  }
+}
+
+/* 다크 모드(선택) */
+@media (prefers-color-scheme: dark) {
+  .hdr-shell {
+    background: rgba(10, 10, 12, 0.84);
+    color: #f2f2f2;
+  }
+  .hdr-link {
+    color: #f1f1f1;
+  }
+  .hdr-burger {
+    border-color: #2a2a2a;
+    background: rgba(22, 22, 24, 0.9);
+  }
+  .hdr-burger span {
+    background: #f1f1f1;
+  }
+  .hdr-drawer {
+    background: rgba(18, 18, 20, 0.98);
+    border-color: #2a2a2a;
+  }
+  .hdr-drawer-item {
+    color: #f1f1f1;
+  }
+  .hdr-drawer-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
