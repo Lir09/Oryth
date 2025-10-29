@@ -13,7 +13,7 @@ const NAV = [
     to: "/notion",
     label: "NOTION",
     external: true,
-    href: "https://www.notion.so",
+    href: "https://www.notion.so/201cb77e1e7d80af92d8d84e0ac634b0?source=copy_link",
   },
 ];
 
