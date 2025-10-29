@@ -1,0 +1,227 @@
+/* ================================
+   src/style/BwCalendar.css
+   Minimal Black × White Calendar
+   - Only black/white + subtle hairlines
+   - Month/Week view, responsive
+   - Keyboard/focus accessible
+================================ */
+
+/* Design tokens */
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --line: rgba(255, 255, 255, 0.2);
+  --line-weak: rgba(255, 255, 255, 0.12);
+}
+
+/* Page container (optional, for About page) */
+.about-page--minimal {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 20px 56px;
+  background: #000;
+  color: #fff;
+}
+.about-title {
+  margin: 0 0 16px;
+  font-weight: 800;
+  font-size: clamp(24px, 4.6vw, 40px);
+}
+
+/* Calendar root */
+.bwcal {
+  width: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header / Toolbar */
+.bwcal__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 10px 0 12px;
+}
+.bwcal__nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bwcal__label {
+  font-weight: 800;
+  font-size: clamp(16px, 3.6vw, 20px);
+}
+.bwcal__views {
+  display: flex;
+  gap: 8px;
+}
+
+/* Buttons */
+.bwbtn {
+  min-width: 40px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg);
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+.bwbtn:hover {
+  border-color: #fff;
+}
+.bwbtn.is-active {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+.bwbtn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Week header */
+.bwcal__head {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.bwcal__w {
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.02em;
+}
+
+/* Grid (days) */
+.bwcal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 110px;
+}
+.bwcal__grid.is-week {
+  grid-auto-rows: 150px;
+}
+
+/* Day cell */
+.bwcell {
+  position: relative;
+  border-right: 1px solid var(--line-weak);
+  border-bottom: 1px solid var(--line-weak);
+}
+.bwcell:nth-child(7n) {
+  border-right: 0;
+}
+.bwcell.is-out {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Today ring (no color fill, just ring) */
+.bwcell.is-today {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+
+/* Cell inner layout */
+.bwcell__inner {
+  position: absolute;
+  inset: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bwcell__date {
+  display: flex;
+}
+
+/* Date pill
+   - default: transparent gray number
+   - event day: solid white pill */
+.bw-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: transparent;
+  color: #bbb;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+}
+.bwcell.has-event .bw-pill {
+  background: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+/* Event tag (inside cell, bottom aligned) */
+.bw-tag {
+  margin-top: auto;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hover (optional, subtle) */
+.bwcell:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .bwcal__grid {
+    grid-auto-rows: 88px;
+  }
+}
+
+/* Reduced motion: disable transitions if any are added later */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Print-friendly (white background) */
+@media print {
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --line: rgba(0, 0, 0, 0.2);
+    --line-weak: rgba(0, 0, 0, 0.12);
+  }
+  .about-page--minimal {
+    background: #fff;
+    color: #000;
+  }
+  .bwcal {
+    background: #fff;
+    color: #000;
+  }
+  .bwbtn {
+    border-color: #000;
+    color: #000;
+  }
+  .bwbtn.is-active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+  .bwcell.is-today {
+    outline-color: #000;
+  }
+}

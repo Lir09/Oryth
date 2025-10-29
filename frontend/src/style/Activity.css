@@ -1,0 +1,222 @@
+/* src/style/Activity.css  (정석 해결 버전: 풀폭 배경 + inner 컨테이너) */
+
+/* Fonts */
+@font-face {
+  font-family: "Paperlogy";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.1/Paperlogy-4Regular.woff2")
+    format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Paperlogy";
+  font-style: normal;
+  font-weight: 600;
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.1/Paperlogy-6SemiBold.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+/* Tokens */
+:root {
+  --ink: #0a0a0a;
+  --paper: #fff;
+  --muted: #6b6b6b;
+  --line: rgba(0, 0, 0, 0.12);
+
+  --container: clamp(280px, 92vw, 1100px);
+  --gutter: clamp(14px, 2.2vw, 24px);
+
+  --radius: clamp(12px, 1.5vw, 18px);
+  --elev: 0 10px 40px rgba(0, 0, 0, 0.1);
+  --hdr-h: clamp(64px, 7.2vw, 80px);
+}
+
+/* 풀폭 배경 */
+.activity {
+  width: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: calc(100svh - var(--hdr-h));
+  padding: clamp(10px, 2vw, 16px) 0 clamp(40px, 6vw, 64px);
+  font-family: "Paperlogy", system-ui, -apple-system, Roboto, "Noto Sans KR",
+    sans-serif;
+}
+
+/* 가운데 컨테이너 */
+.activity__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Head */
+.activity__head {
+  padding: clamp(14px, 2.2vw, 28px) 0 clamp(8px, 1.2vw, 14px);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: clamp(12px, 2vw, 22px);
+}
+.activity__title {
+  margin: 0 0 6px;
+  font-size: clamp(22px, 4.2vw, 36px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.activity__sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(12px, 1.6vw, 14px);
+}
+
+/* Grid */
+.activity__grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(clamp(220px, 42vw, 360px), 1fr)
+  );
+  gap: clamp(12px, 2vw, 18px);
+  margin-top: clamp(12px, 2vw, 20px);
+}
+
+/* Card */
+.proj {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.18s ease, transform 0.12s ease,
+    border-color 0.18s ease;
+  min-height: clamp(140px, 28vw, 220px);
+}
+.proj:hover {
+  box-shadow: var(--elev);
+  transform: translateY(-2px);
+  border-color: rgba(0, 0, 0, 0.16);
+}
+.proj__body {
+  padding: clamp(14px, 2vw, 18px) clamp(12px, 2vw, 16px) 8px;
+}
+.proj__top {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1vw, 10px);
+  margin-bottom: 6px;
+  min-width: 0;
+}
+.proj__title {
+  margin: 0;
+  font-size: clamp(16px, 2.2vw, 18px);
+  font-weight: 600;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.proj__tag {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: clamp(10px, 1.4vw, 11px);
+  color: #111;
+}
+.proj__desc {
+  margin: 6px 0 0;
+  font-size: clamp(13px, 1.8vw, 14px);
+  color: var(--muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.proj__actions {
+  display: flex;
+  gap: clamp(8px, 1.2vw, 10px);
+  padding: clamp(8px, 1.6vw, 12px) clamp(12px, 2vw, 16px) clamp(12px, 2vw, 16px);
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(36px, 5vw, 44px);
+  padding: 0 clamp(14px, 2vw, 18px);
+  border-radius: 999px;
+  border: 1.5px solid #000;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: clamp(12px, 1.8vw, 14px);
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
+}
+.btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+.btn--solid {
+  color: #fff;
+  background: #000;
+}
+.btn--solid:hover {
+  background: #111;
+}
+.btn--ghost {
+  color: #000;
+  background: #fff;
+}
+.btn--ghost:hover {
+  background: #f6f6f6;
+}
+
+/* Dark */
+@media (prefers-color-scheme: dark) {
+  html,
+  body,
+  #root {
+    background: #000;
+  } /* 여백까지 어둡게 */
+  :root {
+    --line: rgba(255, 255, 255, 0.14);
+  }
+  .activity {
+    background: #000;
+    color: #fff;
+  }
+  .activity__sub {
+    color: #bfbfbf;
+  }
+  .proj {
+    background: #000;
+    border-color: var(--line);
+  }
+  .proj__desc {
+    color: #bfbfbf;
+  }
+  .proj__tag {
+    color: #fff;
+    border-color: var(--line);
+  }
+  .btn--solid {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+  }
+  .btn--solid:hover {
+    background: #e8e8e8;
+  }
+  .btn--ghost {
+    color: #fff;
+    border-color: #fff;
+    background: transparent;
+  }
+  .btn--ghost:hover {
+    background: #111;
+  }
+}

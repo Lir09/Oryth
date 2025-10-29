@@ -1,0 +1,88 @@
+/* src/style/Apply.css */
+/* 단색 모노톤 + 가운데 정렬 + 타자기 효과 전용 스타일 */
+
+:root {
+  --ink: #000;
+  --paper: #fff;
+  --muted: #6b6b6b;
+  --line: rgba(0, 0, 0, 0.12);
+  --hdr-h: clamp(64px, 7.2vw, 80px);
+}
+
+@font-face {
+  font-family: "Paperlogy";
+  font-style: normal;
+  font-weight: 600;
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.1/Paperlogy-6SemiBold.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+.apply {
+  min-height: calc(100svh - var(--hdr-h));
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.apply__hero {
+  text-align: center;
+  max-width: 820px;
+  width: min(92vw, 820px);
+}
+
+.apply__title {
+  margin: 0 0 10px;
+  font-family: "Paperlogy", system-ui, -apple-system, Roboto, "Noto Sans KR",
+    sans-serif;
+  font-weight: 600;
+  line-height: 1.15;
+  font-size: clamp(28px, 6vw, 56px);
+}
+
+.apply__sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(14px, 2.4vw, 18px);
+}
+
+/* 형광펜 하이라이트(텍스트 영역만) */
+.marker {
+  background: linear-gradient(transparent 62%, rgba(0, 0, 0, 0.14) 0);
+  padding: 0 0.06em;
+}
+
+/* 커서 깜빡임 */
+.caret {
+  display: inline-block;
+  animation: caret-blink 0.9s step-end infinite;
+}
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 다크 모드 */
+@media (prefers-color-scheme: dark) {
+  html,
+  body,
+  #root {
+    background: #000;
+  }
+  :root {
+    --line: rgba(255, 255, 255, 0.14);
+  }
+  .apply {
+    background: #000;
+    color: #fff;
+  }
+  .apply__sub {
+    color: #bfbfbf;
+  }
+  .marker {
+    background: linear-gradient(transparent 62%, rgba(255, 255, 255, 0.22) 0);
+  }
+}

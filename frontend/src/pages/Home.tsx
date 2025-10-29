@@ -22,7 +22,7 @@ const PROJECTS: Project[] = [
   },
 
   // ⬇️ '아직 개발 중...'은 두 번째로 이동
-  { title: "아직 개발 중...", desc: "아직 개발 중...", to: "/about" },
+  { title: "아직 개발 중...", desc: "아직 개발 중...", to: "/activity" },
 ];
 
 export default function Home() {
@@ -47,12 +47,9 @@ export default function Home() {
                 cursorChar="|"
               />
               <br />
-              <span className="subtitle">블랙 & 화이트, 담백한 포트폴리오</span>
             </h1>
 
-            <p className="hero__desc">
-              웹·앱·임베디드까지. 필요한 걸 빠르게 만들고, 더 좋게 다듬습니다.
-            </p>
+            <p className="hero__desc"> </p>
 
             <div className="hero__actions">
               <Link to="/apply" className="btn btn--solid">
