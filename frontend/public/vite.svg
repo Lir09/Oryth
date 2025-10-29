@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 1024 1024">
   <defs>
     <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#E3C766"/>
       <stop offset="100%" stop-color="#B68B2D"/>
     </linearGradient>
   </defs>
-
-  <!-- 마크 (투명 배경) -->
-  <g fill="url(#goldGrad)">
-    <!-- 윗 곡선 -->
+  <!-- 네이비 원 배경: 파비콘 대비 향상 -->
+  <circle cx="512" cy="512" r="492" fill="#0B1520"/>
+  <!-- 크게 보이도록 중앙 기준 확대 (배경 고려해 살짝 덜 확대) -->
+  <g transform="translate(512 512) scale(1.28) translate(-512 -512)" fill="url(#goldGrad)">
     <path d="M240 590
              C320 450 420 330 540 320
              C650 312 720 392 720 500
@@ -19,14 +19,12 @@
              C430 360 350 480 280 570
              C260 596 240 600 210 600
              Q190 600 240 590Z"/>
-    <!-- 아랫 곡선 (우측 뾰족) -->
     <path d="M390 650
              C450 730 560 780 670 750
              C750 730 800 670 860 570
              L820 560
              C760 650 700 700 630 720
              C520 750 440 700 390 650Z"/>
-    <!-- 중심 원 -->
     <circle cx="455" cy="540" r="70"/>
   </g>
 </svg>
